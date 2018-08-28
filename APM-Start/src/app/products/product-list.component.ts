@@ -5,7 +5,11 @@ import { Component } from '@angular/core';
   templateUrl: './product-list.component.html'
 })
 export class ProductListComponent {
-  pageTitle = 'Product List';
+  pageTitle = 'Product List'; // Type string trivially inferred from a string literal
+  imageWidth = 50; // Type number trivially inferred from a number literal -> imageWidth: number = 50;
+  imageMargin = 2;
+  showImage = false; // Type boolean trivially inferred from a boolean literal
+  listFilter: string;
   products: any[] = [
     {
       'productId': 1,
@@ -33,7 +37,7 @@ export class ProductListComponent {
       'productCode': 'TBX-0048',
       'releaseDate': 'May 21, 2016',
       'description': 'Curved claw steel hammer',
-      'price': 8.9,
+      'price': .9, // should appear as 0,90
       'starRating': 4.8,
       'imageUrl': 'https://openclipart.org/image/300px/svg_to_png/73/rejon_Hammer.png'
     },
@@ -43,7 +47,7 @@ export class ProductListComponent {
       'productCode': 'TBX-0022',
       'releaseDate': 'May 15, 2016',
       'description': '15-inch steel blade hand saw',
-      'price': 11.55,
+      'price': 11.558, // should appear as 11,56
       'starRating': 3.7,
       'imageUrl': 'https://openclipart.org/image/300px/svg_to_png/27070/egore911_saw.png'
     },
@@ -58,4 +62,8 @@ export class ProductListComponent {
       'imageUrl': 'https://openclipart.org/image/300px/svg_to_png/120337/xbox-controller_01.png'
     }
   ];
+
+  toggleImage(): void {
+    this.showImage = !this.showImage;
+  }
 }
