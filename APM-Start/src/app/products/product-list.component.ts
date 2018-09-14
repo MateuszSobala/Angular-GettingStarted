@@ -81,6 +81,10 @@ export class ProductListComponent implements OnInit {
     this.filteredProducts = this.products;
   }
 
+  onRatingClicked(message: string) {
+    this.pageTitle = 'Product List: ' + message;
+  }
+
   ngOnInit(): void {
     // to download data from backend
     // constructor is triggered before
