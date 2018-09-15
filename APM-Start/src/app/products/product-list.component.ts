@@ -11,11 +11,11 @@ import { ProductService } from './product.service';
 export class ProductListComponent implements OnInit {
 
   // private _productService: ProductService;
-
   pageTitle = 'Product List'; // Type string trivially inferred from a string literal
   imageWidth = 50; // Type number trivially inferred from a number literal -> imageWidth: number = 50;
   imageMargin = 2;
   showImage = false; // Type boolean trivially inferred from a boolean literal
+  errorMessage: string;
 
   _listFilter: string;
   get listFilter(): string {
@@ -34,8 +34,13 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.products = this.productService.getProducts();
-    this.filteredProducts = this.products;
+    this.productService.getProducts().subscribe(
+      products => {
+        this.products = products;
+        this.filteredProducts = this.products;
+      },
+      error => this.errorMessage = <any>error
+    );
     // to download data from backend
     // constructor is triggered before
   }

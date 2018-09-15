@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { IProduct } from './product';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { map, tap, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root' // Root injector - service is available throughout the entire application
@@ -7,8 +10,33 @@ import { IProduct } from './product';
 })
 export class ProductService {
 
-  getProducts(): IProduct[] {
+  private productUrl = 'api/products/products.json'; // we can read local file,
+  // because the src/api directory was added to assets of angular.json
+  // 'http://localhost:3000/products';
+  // run json-server ./src/api/products/products.json
 
+  constructor(private http: HttpClient) { }
+
+  getProducts(): Observable<IProduct[]> {
+    return this.http.get<IProduct[]>(this.productUrl)
+      .pipe(
+        tap(data => console.log('All: ' + JSON.stringify(data))), // for debugging purposes
+        map(data => data['products']),
+        catchError(this.handleError)
+      );
+  }
+
+  private handleError(err: HttpErrorResponse) {
+    let errorMessage = '';
+    if (err.error instanceof ErrorEvent) {
+      errorMessage = `An error occured: ${err.error.message}`;
+    } else {
+      errorMessage = `Server returned ${err.status}, error message is: ${err.message}`;
+    }
+    return throwError(errorMessage);
+  }
+
+  getProductsHardcoded(): IProduct[] {
     return [
       {
         'productId': 1,

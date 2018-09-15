@@ -3,6 +3,7 @@ import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { registerLocaleData } from '@angular/common';
 import localePl from '@angular/common/locales/pl';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './products/product-list.component';
@@ -18,7 +19,8 @@ import { StarComponent } from './shared/star.component';
   ],
   imports: [
     BrowserModule, // fundamental Module for browser application + *ngIf/*ngFor
-    FormsModule // [(ngModel)]
+    FormsModule, // [(ngModel)]
+    HttpClientModule // HttpClient
   ],
   bootstrap: [AppComponent], // starting component
   providers: [{ provide: LOCALE_ID, useValue: 'pl' }]
