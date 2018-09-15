@@ -8,7 +8,8 @@ import { map, tap, catchError, filter, take, takeLast } from 'rxjs/operators';
   providedIn: 'root' // Root injector - service is available throughout the entire application
   // new in Angular 6, before it was done by adding the service in providers of @NgModule
 })
-export class ProductService {
+export class ProductService { // there should be only one instance (singleton) of a service across the entire application
+  // put them in e.g. CoreModule, not in SharedModule, and import into root module, i.e. AppModule
 
   private productUrl = 'api/products/products.json'; // we can read local file,
   // because the src/api directory was added to assets of angular.json

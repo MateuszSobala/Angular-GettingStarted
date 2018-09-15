@@ -1,39 +1,28 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { registerLocaleData } from '@angular/common';
 import localePl from '@angular/common/locales/pl';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { ProductListComponent } from './products/product-list.component';
-import { ConvertToSpacesPipe } from './shared/convert-to-spaces';
-import { StarComponent } from './shared/star.component';
-import { ProductDetailComponent } from './products/product-detail.component';
 import { WelcomeComponent } from './home/welcome.component';
-import { ProductDetailGuard } from './products/product-detail.guard';
+import { ProductModule } from './products/product.module';
+import { AppRoutingModule } from './/app-routing.module';
 
 @NgModule({
-  declarations: [
+  declarations: [ // private for the module; add only components, directives and pipes
     AppComponent,
-    ProductListComponent,
-    StarComponent,
-    ConvertToSpacesPipe,
-    ProductDetailComponent,
     WelcomeComponent
   ],
-  imports: [
-    BrowserModule, // fundamental Module for browser application + *ngIf/*ngFor
-    FormsModule, // [(ngModel)]
+  exports: [], // can export not imported modules, e.g. aggregator module
+  imports: [ // imports are not inherited
+    BrowserModule, // fundamental Module for browser application + *ngIf/*ngFor (from imported and exported CommonModule)
+    // should only be imported into root module
     HttpClientModule, // HttpClient
-    RouterModule.forRoot([
-      { path: 'products', component: ProductListComponent },
-      { path: 'products/:id', canActivate: [ProductDetailGuard], component: ProductDetailComponent },
-      { path: 'welcome', component: WelcomeComponent },
-      { path: '', redirectTo: 'welcome', pathMatch: 'full' },
-      { path: '**', redirectTo: 'welcome', pathMatch: 'full' }
-    ]) // registers the router service; , { useHash: true } for non HTML5 routing
+    ProductModule,
+    AppRoutingModule // important to have the default (wildcard) routes at the end, after the routes in feature modules are registered
+    // router takes first match route
   ],
   bootstrap: [AppComponent], // starting component
   providers: [{ provide: LOCALE_ID, useValue: 'pl' }]
