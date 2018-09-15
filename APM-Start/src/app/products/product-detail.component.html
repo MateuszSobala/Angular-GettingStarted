@@ -1,0 +1,6 @@
+<div class='card' *ngIf='product'>
+  <div class='card-header'>
+    {{ pageTitle + ': ' + product?.productName }}
+    <!-- ?. safe navigation operator - but it doesn't work with two way binding of NgModel -->
+  </div>
+</div>

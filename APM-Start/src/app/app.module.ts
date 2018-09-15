@@ -4,23 +4,35 @@ import { FormsModule } from '@angular/forms';
 import { registerLocaleData } from '@angular/common';
 import localePl from '@angular/common/locales/pl';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './products/product-list.component';
 import { ConvertToSpacesPipe } from './shared/convert-to-spaces';
 import { StarComponent } from './shared/star.component';
+import { ProductDetailComponent } from './products/product-detail.component';
+import { WelcomeComponent } from './home/welcome.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductListComponent,
     StarComponent,
-    ConvertToSpacesPipe
+    ConvertToSpacesPipe,
+    ProductDetailComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule, // fundamental Module for browser application + *ngIf/*ngFor
     FormsModule, // [(ngModel)]
-    HttpClientModule // HttpClient
+    HttpClientModule, // HttpClient
+    RouterModule.forRoot([
+      { path: 'products', component: ProductListComponent },
+      { path: 'products/:id', component: ProductDetailComponent },
+      { path: 'welcome', component: WelcomeComponent },
+      { path: '', redirectTo: 'welcome', pathMatch: 'full' },
+      { path: '**', redirectTo: 'welcome', pathMatch: 'full' }
+    ]) // registers the router service; , { useHash: true } for non HTML5 routing
   ],
   bootstrap: [AppComponent], // starting component
   providers: [{ provide: LOCALE_ID, useValue: 'pl' }]
