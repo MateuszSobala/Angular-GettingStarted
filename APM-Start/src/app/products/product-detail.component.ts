@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { IProduct } from './product';
+import { ProductService } from './product.service';
 
 @Component({
   templateUrl: './product-detail.component.html',
@@ -12,7 +13,7 @@ export class ProductDetailComponent implements OnInit {
   pageTitle = 'Product Detail';
   product: IProduct;
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router, private productService: ProductService) {
     console.log(this.route.snapshot.paramMap.get('id')); // snapshot to get only initial value
     this.route.paramMap // observable for changing values
       .subscribe(params => {
@@ -24,10 +25,11 @@ export class ProductDetailComponent implements OnInit {
   ngOnInit() {
     const id = +this.route.snapshot.paramMap.get('id'); // + for converting string to numeric value
     this.pageTitle += `: ${id}`;
-    this.product = {
-      'productId': id,
-      'productName': 'product name'
-    };
+    this.productService.getProduct(id).subscribe(
+      product => {
+        this.product = product;
+      }
+    );
   }
 
   onBack(): void {

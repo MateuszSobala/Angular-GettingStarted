@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { IProduct } from './product';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { map, tap, catchError } from 'rxjs/operators';
+import { map, tap, catchError, filter, take, takeLast } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root' // Root injector - service is available throughout the entire application
@@ -22,6 +22,14 @@ export class ProductService {
       .pipe(
         tap(data => console.log('All: ' + JSON.stringify(data))), // for debugging purposes
         map(data => data['products']),
+        catchError(this.handleError)
+      );
+  }
+
+  getProduct(id: number): Observable<IProduct> {
+    return this.http.get<IProduct>(this.productUrl)
+      .pipe(
+        map(data => data['products'].filter(product => product.productId === id)[0]),
         catchError(this.handleError)
       );
   }
