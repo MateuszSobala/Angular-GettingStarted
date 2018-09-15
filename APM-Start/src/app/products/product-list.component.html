@@ -33,9 +33,14 @@
           <tr *ngFor='let product of filteredProducts'>
             <!-- one could introduce filtering pipe, but these are slow -->
             <td>
-              <img *ngIf='showImage' [src]='product.imageUrl' [title]='product.productName | uppercase' [style.width.px]='imageWidth' [style.margin.px]='imageMargin'>
+              <img *ngIf='showImage' [src]='product.imageUrl' [title]='product.productName | uppercase'
+                [style.width.px]='imageWidth' [style.margin.px]='imageMargin'>
             </td>
-            <td>{{ product.productName }}</td>
+            <td>
+              <a [routerLink]="['/products', product.productId]">
+                {{ product.productName }}
+              </a>
+            </td>
             <td>{{ product.productCode | lowercase | convertToSpaces:'-' }}</td>
             <td>{{ product.releaseDate }}</td>
             <td>{{ product.price | currency:'PLN':'symbol':'1.2-2' }}</td>
